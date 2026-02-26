@@ -14,22 +14,30 @@ The "canonical" implementation is now based on Spring Boot, Thymeleaf and [aggre
 
 [See the presentation here](http://fr.slideshare.net/AntoineRey/spring-framework-petclinic-sample-application) (2017 update)
 
-## Running petclinic locally
+## 실행 방법
 
-### With Maven command line
-```
-git clone https://github.com/spring-petclinic/spring-framework-petclinic.git
-cd spring-framework-petclinic
-./mvnw jetty:run-war
-# For Windows : ./mvnw.cmd jetty:run-war
+### 사전 요구사항
+- Java 25
+- Maven 3.9+
+- Docker & Docker Compose
+
+### 빌드 및 실행
+
+```bash
+# WAR 빌드
+./mvnw clean package -P MySQL -DskipTests
+
+# Docker Compose로 Tomcat 11 + MySQL 9 동시 기동
+docker compose up -d
+
+# 로그 확인
+docker compose logs -f
+
+# 종료
+docker compose down
 ```
 
-### With Docker
-```
-docker run -p 8080:8080 springcommunity/spring-framework-petclinic
-```
-
-You can then access petclinic here: [http://localhost:8080/](http://localhost:8080/)
+접속: http://localhost:8080
 
 <img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
 

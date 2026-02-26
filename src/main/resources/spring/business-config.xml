@@ -48,6 +48,13 @@
             <!-- gDickens: BOTH Persistence Unit and Packages to Scan are NOT compatible, persistenceUnit will win -->
             <property name="persistenceUnitName" value="petclinic"/>
             <property name="packagesToScan" value="org.springframework.samples.petclinic"/>
+            <property name="jpaProperties">
+                <props>
+                    <!-- Hibernate 7 uses MySQLDialect (MySQL8Dialect was removed) -->
+                    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                    <prop key="hibernate.hbm2ddl.auto">update</prop>
+                </props>
+            </property>
         </bean>
 
         <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->

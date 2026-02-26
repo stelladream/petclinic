@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:9.0
+    container_name: petclinic-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: petclinic
+      MYSQL_USER: petclinic
+      MYSQL_PASSWORD: petclinic
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-upetclinic", "-ppetclinic"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  tomcat:
+    image: tomcat:11-jdk21
+    container_name: petclinic-tomcat
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./target/petclinic.war:/usr/local/tomcat/webapps/ROOT.war
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: >-
+        -Dspring.profiles.active=jpa
+        -Djdbc.url=jdbc:mysql://mysql:3306/petclinic?serverTimezone=UTC
+        -Djdbc.username=petclinic
+        -Djdbc.password=petclinic
+        -Djpa.database=MYSQL
+        -Djdbc.driverClassName=com.mysql.cj.jdbc.Driver
+
+volumes:
+  mysql_data:

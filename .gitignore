@@ -5,14 +5,25 @@
 bin/
 
 # IntelliJ IDEA
-.idea
+.idea/
 *.iml
 
 # VS Code
-.vscode
+.vscode/
 
 # Maven
 target/
 
 # OS
 .DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Docker
+mysql_data/
+
+# Claude Code
+.claude/
